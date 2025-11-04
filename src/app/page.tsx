@@ -1,11 +1,17 @@
 'use client';
 
-import WormholeConnect, {
+import dynamic from 'next/dynamic';
+import {
     type config,
   } from '@wormhole-foundation/wormhole-connect';
 import {
   nttRoutes,
 } from '@wormhole-foundation/wormhole-connect/ntt';
+
+const WormholeConnect = dynamic(
+  () => import('@wormhole-foundation/wormhole-connect').then((mod) => mod.default),
+  { ssr: false }
+);
 
 const wormholeConfig: config.WormholeConnectConfig = {
   network: 'Mainnet',
@@ -14,8 +20,14 @@ const wormholeConfig: config.WormholeConnectConfig = {
   ui: {
     title: 'Wormhole NTT UI',
     defaultInputs: {
-      fromChain: 'Solana',
-      toChain: 'Base'
+      source: {
+        chain: 'Solana',
+        token: 'USA',
+      },
+      destination: {
+        chain: 'Base',
+        token: 'USA',
+      },
     },
     disableUserInputtedTokens: true,
     // walletConnectProjectId: '', 
